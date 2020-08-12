@@ -249,19 +249,15 @@ class BasePlugin:
                         self.tvPlaying = "iPlayer"
                         self.run("app", "Bbc.Iplayer.3.0")
                     if Level == 100:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "Disney+"
                         self.run("app", "com.disney.disneyplus-prod")
                     if Level == 110:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "``"
                         self.run("app", "spotify-beehive")
                     if Level == 120:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "Apple TV"
                         self.run("app", "com.apple.appletv")
                     if Level == 130:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "PhotoVideo"
                         self.run("app", "com.webos.app.photovideo")
                     if Level == 140:
