@@ -79,7 +79,7 @@ class BasePlugin:
         #TODO: get number of inputs and apps to build list
         
         self.SourceOptions3 =   {   "LevelActions"  : "||||||", 
-                                    "LevelNames"    : "Off|TV|HDMI1|HDMI2|HDMI3|Hulu|Netflix|Amazon|Youtube|iPlayer|Unknown",
+                                    "LevelNames"    : "Off|TV|HDMI1|HDMI2|HDMI3|Hulu|Netflix|Amazon|Youtube|iPlayer|Disney+|Spotify|Apple TV|PhotoVideo|Unknown",
                                     "LevelOffHidden": "true",
                                     "SelectorStyle" : "0"
                                 }
@@ -238,16 +238,33 @@ class BasePlugin:
                     if Level == 70:
                         #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #Amazon
                         self.tvPlaying = "Amazon"
-                        self.run("app", "Lovefilm")
+                        #self.run("app", "Lovefilm")
+                        self.run("app", "amazon")                   
                     if Level == 80:
                         #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #Youtube
                         self.tvPlaying = "Youtube"
-                        self.run("app", "Youtube.Leanback.V4")
+                        self.run("app", "youtube.leanback.v4")
                     if Level == 90:
                         #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "iPlayer"
                         self.run("app", "Bbc.Iplayer.3.0")
                     if Level == 100:
+                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
+                        self.tvPlaying = "Disney+"
+                        self.run("app", "com.disney.disneyplus-prod")
+                    if Level == 110:
+                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
+                        self.tvPlaying = "``"
+                        self.run("app", "spotify-beehive")
+                    if Level == 120:
+                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
+                        self.tvPlaying = "Apple TV"
+                        self.run("app", "com.apple.appletv")
+                    if Level == 130:
+                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
+                        self.tvPlaying = "PhotoVideo"
+                        self.run("app", "com.webos.app.photovideo")
+                    if Level == 140:
                         #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #Unknown
                         self.tvPlaying = "Unknown"                        
 
@@ -336,7 +353,8 @@ class BasePlugin:
         Domoticz.Debug("Channel: " + currentChannel)
         Domoticz.Debug("Info: " + currentInfo)
 
-        if not "errorCode" in currentChannel:#self.tvPlaying['programTitle'] != None:      # Get information on channel and program title if tuner of TV is used
+        if("com.webos.app.livetv" in currentApp):
+            #if not "errorCode" in currentChannel:#self.tvPlaying['programTitle'] != None:      # Get information on channel and program title if tuner of TV is used
             # pylgtv seems to return invalid JSON, so parse the fragment ourselves
             if "channelName" in currentChannel:
                 currentChannelInfo = currentChannel.split(',')
@@ -379,7 +397,7 @@ class BasePlugin:
             elif "netflix" in self.tvPlaying.lower():
                 self.tvSource = 60
                 UpdateDevice(3, 1, str(self.tvSource))    # Set source device to Netflix
-            elif "lovefilm" in self.tvPlaying.lower():
+            elif "lovefilm" in self.tvPlaying.lower() or "amazon" in self.tvPlaying.lower():
                 self.tvSource = 70
                 UpdateDevice(3, 1, str(self.tvSource))    # Set source device to Amazon
             elif "youtube" in self.tvPlaying.lower():
@@ -388,8 +406,20 @@ class BasePlugin:
             elif "iplayer" in self.tvPlaying.lower():
                 self.tvSource = 90
                 UpdateDevice(3, 1, str(self.tvSource))    # Set source device to iPlayer
-            else:
+            elif "disneyplus" in self.tvPlaying.lower():
                 self.tvSource = 100
+                UpdateDevice(3, 1, str(self.tvSource))
+            elif "spotify" in self.tvPlaying.lower():
+                self.tvSource = 110
+                UpdateDevice(3, 1, str(self.tvSource))
+            elif "appletv" in self.tvPlaying.lower():
+                self.tvSource = 120
+                UpdateDevice(3, 1, str(self.tvSource))
+            elif "photovideo" in self.tvPlaying.lower():
+                self.tvSource = 130
+                UpdateDevice(3, 1, str(self.tvSource))
+            else:
+                self.tvSource = 140
                 UpdateDevice(3, 1, str(self.tvSource))    # Set source device to Unknown
 
             UpdateDevice(1, 1, self.tvPlaying)
