@@ -249,19 +249,15 @@ class BasePlugin:
                         self.tvPlaying = "iPlayer"
                         self.run("app", "Bbc.Iplayer.3.0")
                     if Level == 100:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "Disney+"
                         self.run("app", "com.disney.disneyplus-prod")
                     if Level == 110:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "``"
                         self.run("app", "spotify-beehive")
                     if Level == 120:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "Apple TV"
                         self.run("app", "com.apple.appletv")
                     if Level == 130:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "PhotoVideo"
                         self.run("app", "com.webos.app.photovideo")
                     if Level == 140:
@@ -352,7 +348,9 @@ class BasePlugin:
         Domoticz.Debug("Input: " + currentInput)
         Domoticz.Debug("Channel: " + currentChannel)
         Domoticz.Debug("Info: " + currentInfo)
-
+        if 'TimeoutError()' in out:
+            currentChannel = "Off"
+            
         if("com.webos.app.livetv" in currentApp):
             #if not "errorCode" in currentChannel:#self.tvPlaying['programTitle'] != None:      # Get information on channel and program title if tuner of TV is used
             # pylgtv seems to return invalid JSON, so parse the fragment ourselves
@@ -491,4 +489,3 @@ def DumpConfigToLog():
         Domoticz.Debug("Device sValue:   '" + Devices[x].sValue + "'")
         Domoticz.Debug("Device LastLevel: " + str(Devices[x].LastLevel))
     return
-
